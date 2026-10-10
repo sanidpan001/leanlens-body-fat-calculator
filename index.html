@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LeanLens — Body Fat Percentage Calculator | US Navy Tape Method</title>
+<meta name="description" content="LeanLens is a free Body Fat Percentage Calculator using the US Navy tape-measure method for men and women. Get your category, fat mass vs lean mass split and a visual gauge in seconds.">
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  body{font-family:'Inter',system-ui,sans-serif;background:#0f172a}
+  .font-cond{font-family:'Barlow Condensed',sans-serif}
+  .tape{background:repeating-linear-gradient(90deg,#f97316 0 2px,transparent 2px 28px)}
+  input[type=number]::-webkit-inner-spin-button{opacity:.4}
+  .seg-btn.active{background:#f97316;color:#fff;border-color:#f97316}
+  .unit-btn.active{background:#0f172a;color:#fff}
+  .gauge-track{background:linear-gradient(90deg,#38bdf8 0%,#22c55e 28%,#a3e635 48%,#facc15 68%,#f97316 84%,#ef4444 100%)}
+</style>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How accurate is the US Navy body fat method?","acceptedAnswer":{"@type":"Answer","text":"The US Navy tape-measure method typically estimates body fat within about 3 to 4 percentage points of hydrostatic weighing or DEXA for most adults when measurements are taken carefully. It is not a medical diagnosis, but it is consistent enough to track change over time if you measure the same way each time."}},{"@type":"Question","name":"Where exactly do I measure my waist, neck and hips?","acceptedAnswer":{"@type":"Answer","text":"Measure your neck just below the larynx with the tape sloping slightly downward. Measure your waist at navel level for men and at the narrowest point for women, after a normal exhale. Measure hips at the widest point of the buttocks, only needed for the women's formula. Keep the tape snug, flat against skin, and parallel to the floor."}},{"@type":"Question","name":"What is a healthy body fat percentage for men and women?","acceptedAnswer":{"@type":"Answer","text":"For men, the Fitness category is roughly 14 to 17 percent and Average is 18 to 24 percent. For women, Fitness is roughly 21 to 24 percent and Average is 25 to 31 percent. Essential fat is 2 to 5 percent for men and 10 to 13 percent for women. Healthy ranges vary with age, sport and individual health, so use the category as a guide, not a rule."}},{"@type":"Question","name":"What is the difference between fat mass and lean mass?","acceptedAnswer":{"@type":"Answer","text":"Fat mass is the weight of all fat in your body, calculated as your body weight multiplied by your body fat percentage. Lean mass is everything else — muscle, bone, organs, water and connective tissue. LeanLens shows both numbers so you can see whether weight change is coming from fat loss or muscle change."}},{"@type":"Question","name":"Can I use LeanLens in centimetres and inches?","acceptedAnswer":{"@type":"Answer","text":"Yes. Use the Metric and Imperial toggle at the top of the calculator. Metric uses centimetres and kilograms, Imperial uses inches and pounds. Switching units converts your current entries automatically so you do not have to re-measure or retype them."}},{"@type":"Question","name":"Why does BMI give me a different result from body fat percentage?","acceptedAnswer":{"@type":"Answer","text":"BMI only uses height and weight, so it cannot tell muscle from fat. A muscular person can have a high BMI with low body fat, and a sedentary person can have a normal BMI with high body fat. Body fat percentage estimates composition directly, which is why athletes and people building muscle often prefer the Navy tape method."}}]}
+</script>
+</head>
+<body class="bg-slate-100 text-slate-800 antialiased" id="top">
+<!-- HEADER -->
+<header class="sticky top-0 z-50 bg-slate-900 text-white shadow-lg shadow-slate-900/20">
+  <div class="mx-auto max-w-6xl px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
+    <a href="#top" class="flex items-center gap-2.5 shrink-0">
+      <span class="w-9 h-9 rounded-xl bg-orange-500 flex items-center justify-center text-xl font-black">◎</span>
+      <span class="font-cond text-2xl tracking-wide font-bold">LEAN<span class="text-orange-400">LENS</span></span>
+    </a>
+    <nav class="flex items-center gap-1 sm:gap-2 text-sm font-semibold">
+      <a href="#top" class="px-3 py-2 rounded-lg hover:bg-white/10">Home</a>
+      <a href="https://fixoraa.tech" class="px-3 py-2 rounded-lg bg-orange-500 hover:bg-orange-400 text-white">More Tools</a>
+    </nav>
+  </div>
+  <div class="tape h-1.5 opacity-80"></div>
+</header>
+
+<!-- HERO -->
+<section class="bg-slate-900 text-white">
+  <div class="mx-auto max-w-6xl px-4 sm:px-6 pt-10 pb-8 text-center">
+    <span class="inline-block bg-orange-500/15 text-orange-300 border border-orange-500/30 text-xs font-bold tracking-widest uppercase px-3 py-1.5 rounded-full">✦ Unlimited Free Usage — No Signup</span>
+    <h1 class="font-cond text-5xl sm:text-6xl font-bold leading-none mt-4">BODY FAT <span class="text-orange-400">PERCENTAGE</span> CALCULATOR</h1>
+    <p class="text-slate-300 max-w-2xl mx-auto mt-3 text-base sm:text-lg">The US Navy tape-measure method — no calipers, no scales with guesswork. Measure, tap Calculate, and see your percentage, category gauge, and fat vs lean split instantly.</p>
+    <div class="flex flex-wrap justify-center gap-2 mt-5 text-xs font-semibold">
+      <span class="bg-white/10 px-3 py-1.5 rounded-full">🏅 US Navy Method</span>
+      <span class="bg-white/10 px-3 py-1.5 rounded-full">👥 Men &amp; Women Formulas</span>
+      <span class="bg-white/10 px-3 py-1.5 rounded-full">📏 cm / inch Toggle</span>
+      <span class="bg-white/10 px-3 py-1.5 rounded-full">⚖️ Fat vs Lean Split</span>
+    </div>
+  </div>
+</section>
+
+<!-- TOP AD -->
+<div class="no-print mx-auto max-w-6xl px-4 sm:px-6 pt-4" role="complementary" aria-label="Advertisement">
+  <div class="mx-auto text-center" style="max-width:728px">
+    <span class="block text-[10px] tracking-[0.18em] uppercase text-slate-400 mb-1.5">Advertisement</span>
+    <div class="flex justify-center overflow-hidden">
+      <div class="origin-top scale-[0.44] sm:scale-100 shrink-0">
+        <script>
+          atOptions = { 'key' : '4e68ac77881c17fe128a46565d9a4e8c', 'format' : 'iframe', 'height' : 90, 'width' : 728, 'params' : {} };
+        </script>
+        <script src="https://www.highrevenueformat.com/4e68ac77881c17fe128a46565d9a4e8c/invoke.js"></script>
+      </div>
+    </div>
+  </div>
+</div>
+
+<main class="mx-auto max-w-6xl px-4 sm:px-6 py-6">
+  <!-- CONTROLS BAR -->
+  <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-4 sm:p-5 flex flex-col md:flex-row md:items-center gap-4 justify-between">
+    <div>
+      <p class="text-xs font-bold tracking-widest uppercase text-slate-400">Step 1 — Who are we measuring?</p>
+      <div class="flex gap-2 mt-2" role="group" aria-label="Sex">
+        <button id="sexMale" class="seg-btn active flex-1 sm:flex-none px-6 py-2.5 rounded-xl border-2 border-slate-200 font-bold text-sm" onclick="setSex('male')">♂ Men</button>
+        <button id="sexFemale" class="seg-btn flex-1 sm:flex-none px-6 py-2.5 rounded-xl border-2 border-slate-200 font-bold text-sm" onclick="setSex('female')">♀ Women</button>
+      </div>
+    </div>
+    <div>
+      <p class="text-xs font-bold tracking-widest uppercase text-slate-400">Units</p>
+      <div class="flex gap-2 mt-2 bg-slate-100 p-1 rounded-xl" role="group" aria-label="Units">
+        <button id="unitMetric" class="unit-btn active px-4 py-2 rounded-lg font-bold text-sm" onclick="setUnit('cm')">Metric · cm / kg</button>
+        <button id="unitImperial" class="unit-btn px-4 py-2 rounded-lg font-bold text-sm" onclick="setUnit('in')">Imperial · in / lb</button>
+      </div>
+    </div>
+    <button onclick="loadExample()" class="text-sm font-bold text-orange-600 hover:text-orange-500 underline underline-offset-4 self-start md:self-center">Try an example →</button>
+  </div>
+
+  <!-- MEASUREMENT CARDS -->
+  <p class="text-xs font-bold tracking-widest uppercase text-slate-400 mt-8 mb-3">Step 2 — Your tape measurements</p>
+  <div class="grid grid-cols-2 lg:grid-cols-5 gap-3 sm:gap-4" id="cardsGrid">
+    <div class="bg-white rounded-2xl border-t-4 border-orange-500 shadow-sm p-4 sm:p-5">
+      <div class="text-2xl">📐</div>
+      <label for="inpHeight" class="block font-bold text-slate-900 mt-1">Height</label>
+      <p class="text-xs text-slate-500">Barefoot, standing tall</p>
+      <div class="flex items-center gap-1.5 mt-3"><input id="inpHeight" type="number" step="0.1" min="0" placeholder="175" class="w-full min-w-0 border-2 border-slate-200 rounded-xl px-3 py-2.5 font-bold text-lg focus:outline-none focus:border-orange-500"><span class="unitLen text-sm font-bold text-slate-400">cm</span></div>
+    </div>
+    <div class="bg-white rounded-2xl border-t-4 border-sky-500 shadow-sm p-4 sm:p-5">
+      <div class="text-2xl">🧣</div>
+      <label for="inpNeck" class="block font-bold text-slate-900 mt-1">Neck</label>
+      <p class="text-xs text-slate-500">Just below the larynx</p>
+      <div class="flex items-center gap-1.5 mt-3"><input id="inpNeck" type="number" step="0.1" min="0" placeholder="38" class="w-full min-w-0 border-2 border-slate-200 rounded-xl px-3 py-2.5 font-bold text-lg focus:outline-none focus:border-sky-500"><span class="unitLen text-sm font-bold text-slate-400">cm</span></div>
+    </div>
+    <div class="bg-white rounded-2xl border-t-4 border-emerald-500 shadow-sm p-4 sm:p-5">
+      <div class="text-2xl">🎗️</div>
+      <label for="inpWaist" class="block font-bold text-slate-900 mt-1">Waist</label>
+      <p class="text-xs text-slate-500" id="waistHint">At navel level, exhaled</p>
+      <div class="flex items-center gap-1.5 mt-3"><input id="inpWaist" type="number" step="0.1" min="0" placeholder="86" class="w-full min-w-0 border-2 border-slate-200 rounded-xl px-3 py-2.5 font-bold text-lg focus:outline-none focus:border-emerald-500"><span class="unitLen text-sm font-bold text-slate-400">cm</span></div>
+    </div>
+    <div class="bg-white rounded-2xl border-t-4 border-violet-500 shadow-sm p-4 sm:p-5" id="hipCard">
+      <div class="text-2xl">🍑</div>
+      <label for="inpHip" class="block font-bold text-slate-900 mt-1">Hip <span class="text-[10px] align-middle bg-violet-100 text-violet-700 px-1.5 py-0.5 rounded-full font-bold">WOMEN</span></label>
+      <p class="text-xs text-slate-500">Widest point of hips</p>
+      <div class="flex items-center gap-1.5 mt-3"><input id="inpHip" type="number" step="0.1" min="0" placeholder="—" class="w-full min-w-0 border-2 border-slate-200 rounded-xl px-3 py-2.5 font-bold text-lg focus:outline-none focus:border-violet-500"><span class="unitLen text-sm font-bold text-slate-400">cm</span></div>
+      <p class="text-[11px] text-slate-400 mt-2" id="hipNote">Not needed for the men’s formula.</p>
+    </div>
+    <div class="bg-white rounded-2xl border-t-4 border-amber-500 shadow-sm p-4 sm:p-5 col-span-2 lg:col-span-1">
+      <div class="text-2xl">⚖️</div>
+      <label for="inpWeight" class="block font-bold text-slate-900 mt-1">Weight <span class="text-[10px] align-middle bg-amber-100 text-amber-700 px-1.5 py-0.5 rounded-full font-bold">FOR SPLIT</span></label>
+      <p class="text-xs text-slate-500">Morning, light clothing</p>
+      <div class="flex items-center gap-1.5 mt-3"><input id="inpWeight" type="number" step="0.1" min="0" placeholder="78" class="w-full min-w-0 border-2 border-slate-200 rounded-xl px-3 py-2.5 font-bold text-lg focus:outline-none focus:border-amber-500"><span id="unitWt" class="text-sm font-bold text-slate-400">kg</span></div>
+    </div>
+  </div>
+
+  <div id="errBox" class="hidden mt-4 bg-red-50 border border-red-200 text-red-700 rounded-xl px-4 py-3 text-sm font-medium"></div>
+
+  <div class="flex flex-col sm:flex-row gap-3 mt-6">
+    <button onclick="calculate()" class="flex-1 bg-orange-500 hover:bg-orange-600 text-white font-extrabold text-lg py-4 rounded-2xl shadow-lg shadow-orange-500/25 transition">Calculate My Body Fat →</button>
+    <button onclick="resetAll()" class="px-6 py-4 rounded-2xl border-2 border-slate-300 bg-white font-bold hover:bg-slate-50">Reset</button>
+  </div>
+  <p class="text-center text-xs text-slate-400 mt-3">🔒 Everything is calculated in your browser. Nothing is uploaded or stored.</p>
+
+  <!-- RESULTS -->
+  <section id="results" class="hidden mt-8">
+    <div class="grid lg:grid-cols-5 gap-4">
+      <div class="lg:col-span-2 bg-slate-900 text-white rounded-3xl p-6 sm:p-7 text-center relative overflow-hidden">
+        <div class="tape h-1 absolute top-0 left-0 right-0 opacity-70"></div>
+        <p class="text-xs font-bold tracking-widest uppercase text-slate-400 mt-2">Your body fat</p>
+        <p class="font-cond text-7xl font-bold leading-none mt-2"><span id="resBf">—</span><span class="text-orange-400 text-4xl">%</span></p>
+        <p class="mt-3"><span id="resCat" class="inline-block bg-orange-500 text-white font-bold px-4 py-1.5 rounded-full text-sm">—</span></p>
+        <p id="resCatDesc" class="text-slate-300 text-sm mt-3 leading-relaxed"></p>
+        <button onclick="copyResult()" class="mt-5 bg-white/10 hover:bg-white/20 font-bold text-sm px-5 py-2.5 rounded-xl">📋 Copy result</button>
+        <p id="copyMsg" class="text-emerald-300 text-xs font-bold mt-2 h-4"></p>
+      </div>
+      <div class="lg:col-span-3 bg-white rounded-3xl border border-slate-200 shadow-sm p-6 sm:p-7">
+        <h2 class="font-cond text-2xl font-bold text-slate-900">CATEGORY GAUGE</h2>
+        <div class="relative mt-6 pt-2">
+          <div class="gauge-track h-5 rounded-full w-full"></div>
+          <div id="gaugeMarker" class="absolute -top-1 transition-all duration-500" style="left:0%">
+            <div class="w-7 h-7 bg-slate-900 border-4 border-white shadow-lg rounded-full -translate-x-1/2 flex items-center justify-center text-white text-[10px] font-black">▼</div>
+          </div>
+        </div>
+        <div class="flex justify-between text-[11px] font-bold text-slate-500 mt-3"><span>Essential</span><span>Athletes</span><span>Fitness</span><span>Average</span><span>Obese</span></div>
+        <div id="catTable" class="grid grid-cols-2 sm:grid-cols-5 gap-2 mt-5 text-center text-xs"></div>
+        <h3 class="font-cond text-2xl font-bold text-slate-900 mt-7">FAT MASS vs LEAN MASS</h3>
+        <div id="splitWrap">
+          <div class="flex h-9 rounded-xl overflow-hidden mt-3 font-bold text-white text-sm">
+            <div id="fatBar" class="bg-orange-500 flex items-center justify-center transition-all duration-500" style="width:20%">Fat</div>
+            <div id="leanBar" class="bg-slate-800 flex items-center justify-center transition-all duration-500" style="width:80%">Lean</div>
+          </div>
+          <div class="grid grid-cols-2 gap-3 mt-3">
+            <div class="bg-orange-50 border border-orange-100 rounded-2xl p-4 text-center"><p class="text-xs font-bold uppercase tracking-wider text-orange-500">Fat mass</p><p class="text-2xl font-extrabold text-slate-900 mt-1"><span id="resFat">—</span> <span class="wtUnit text-sm text-slate-400">kg</span></p><p class="text-xs text-slate-500" id="resFatPct"></p></div>
+            <div class="bg-slate-100 border border-slate-200 rounded-2xl p-4 text-center"><p class="text-xs font-bold uppercase tracking-wider text-slate-500">Lean mass</p><p class="text-2xl font-extrabold text-slate-900 mt-1"><span id="resLean">—</span> <span class="wtUnit text-sm text-slate-400">kg</span></p><p class="text-xs text-slate-500" id="resLeanPct"></p></div>
+          </div>
+          <p id="targetNote" class="text-sm text-slate-600 bg-emerald-50 border border-emerald-100 rounded-xl px-4 py-3 mt-3"></p>
+        </div>
+        <p id="splitEmpty" class="hidden text-sm text-slate-500 bg-slate-50 border border-dashed border-slate-300 rounded-xl px-4 py-3 mt-3">Add your weight above to unlock the fat mass vs lean mass split and a target-weight estimate.</p>
+      </div>
+    </div>
+    <div class="bg-white rounded-2xl border border-slate-200 p-5 mt-4">
+      <h3 class="font-bold text-slate-900">📏 How to measure next time for a fair comparison</h3>
+      <p class="text-sm text-slate-600 mt-1 leading-relaxed">Measure in the morning, before food, with the tape snug but not digging in. Stand relaxed, breathe out normally for the waist, and record to the nearest half centimetre. Re-measure every 2–4 weeks — not daily — because water, food and tape placement can shift a single reading by a percent or more.</p>
+    </div>
+  </section>
+
+  <section id="emptyState" class="mt-8 bg-white border-2 border-dashed border-slate-300 rounded-3xl p-8 text-center">
+    <div class="text-4xl">🎯</div>
+    <h2 class="font-cond text-3xl font-bold text-slate-900 mt-2">YOUR RESULT WILL APPEAR HERE</h2>
+    <p class="text-slate-500 text-sm max-w-md mx-auto mt-1">Fill in at least height, neck and waist — plus hip for women — then tap Calculate. Add weight as well if you want the fat vs lean split.</p>
+  </section>
+</main>
+
+<!-- BOTTOM AD -->
+<div class="no-print mx-auto max-w-6xl px-4 sm:px-6 pb-4" role="complementary" aria-label="Advertisement">
+  <div class="mx-auto text-center" style="max-width:728px">
+    <span class="block text-[10px] tracking-[0.18em] uppercase text-slate-400 mb-1.5">Advertisement</span>
+    <div class="flex justify-center overflow-hidden">
+      <script async src="https://js.wpadmngr.com/static/adManager.js" data-admpid="464498"></script>
+    </div>
+  </div>
+</div>
+<!-- SEO ARTICLE -->
+<article class="mx-auto max-w-4xl px-4 sm:px-6 py-10" id="seo-article">
+  <h2 class="font-cond text-4xl font-bold text-slate-900">Body Fat Percentage: What It Means, How the Navy Method Works, and How to Lower It Safely</h2>
+  <p class="mt-4 text-slate-600 leading-relaxed">Your weight alone tells you very little about your health or your shape. Two people can weigh exactly the same, stand the same height, and look completely different, because one carries more muscle and the other carries more fat. Body fat percentage solves that puzzle. It expresses how much of your total body weight is fat, and it is one of the most useful single numbers for anyone who is training, dieting, returning to fitness after a break, or simply trying to understand whether a change on the bathroom scale is progress or just water. LeanLens estimates that percentage in under a minute using nothing more than a soft tape measure, your height, and a method developed for the United States Navy. This guide explains what the number means, how the calculation works, where to measure, what healthy ranges look like for men and women, how fat mass and lean mass differ, and how to bring your percentage down in a way that protects muscle and lasts.</p>
+  <h3 class="font-cond text-2xl font-bold text-slate-900 mt-8">What body fat percentage actually measures</h3>
+  <p class="mt-3 text-slate-600 leading-relaxed">Every body is a mixture of fat tissue and everything else. Fat tissue includes essential fat, which cushions organs, supports hormone production, insulates nerves and stores energy, and storage fat, which sits under the skin and around the abdomen. Everything else — muscle, bone, organs, blood, water and connective tissue — is grouped together as lean mass, sometimes called fat-free mass. Body fat percentage is simply fat mass divided by total body weight, multiplied by one hundred. If you weigh eighty kilograms and your result is twenty percent, you carry roughly sixteen kilograms of fat and sixty-four kilograms of lean mass. That split is why LeanLens shows both numbers alongside the headline percentage. A person who loses five kilograms of fat while holding lean mass steady has transformed their composition, even if a friend who lost five kilograms of water and muscle looks softer at the same scale weight. Tracking composition rather than weight alone rewards the habits that actually improve health: keeping protein high, training with resistance, sleeping well and losing fat gradually.</p>
+  <p class="mt-3 text-slate-600 leading-relaxed">It is also important to understand what body fat percentage is not. It is not a verdict on your worth, your discipline or even your fitness in full. Endurance athletes, strength athletes and healthy active adults can sit at quite different percentages, and healthy ranges shift with age and sex. Women naturally carry more essential fat than men because of reproductive physiology, which is why every serious chart, including the categories inside LeanLens, uses separate ranges for men and women. A percentage that would be athletic for a man may be unsustainably low for a woman, and comparing across sexes is meaningless. Treat your result as a compass reading: it tells you a direction and a rough distance, not a grade.</p>
+  <h3 class="font-cond text-2xl font-bold text-slate-900 mt-8">The US Navy tape-measure method, explained</h3>
+  <p class="mt-3 text-slate-600 leading-relaxed">The method behind LeanLens was developed at the Naval Health Research Center in the early nineteen eighties, when the Navy needed a fast, cheap and repeatable way to assess thousands of personnel against body-composition standards without dunk tanks or laboratory equipment in every location. Researchers Hodgdon and Beckett compared hundreds of circumference measurements against hydrostatic weighing, then the reference standard, and found that a small set of tape measurements predicted body fat surprisingly well. For men, the formula uses waist circumference at the navel, neck circumference, and height. For women, it adds hip circumference at the widest point, because women tend to store more fat in the hips and thighs and a waist-only estimate would miss that pattern. The equations use logarithms, which is a mathematical way of saying that fat does not grow in a straight line as circumferences grow — the curves flatten and steepen in ways the logarithm captures neatly. LeanLens performs all of that arithmetic for you, including converting between centimetres and inches, so you never need to touch a logarithm yourself.</p>
+  <p class="mt-3 text-slate-600 leading-relaxed">How accurate is it? In validation studies and in decades of practical use, the Navy method typically lands within about three to four percentage points of reference methods such as hydrostatic weighing or dual-energy X-ray absorptiometry, commonly called DEXA, for most adults. That is less precise than a well-run DEXA scan and more informative than most bathroom scales that estimate fat from electrical impedance through wet or dry feet. Crucially, its biggest strength is consistency. If you measure carefully in the same places, at the same time of day, a change of two percentage points over two months almost certainly reflects real change, even if the absolute number is a point or two away from what a scanner would report. For tracking progress, consistency beats laboratory precision you can only access twice a year. The method does have limits. It can overestimate fat in very muscular people with thick necks and underestimate it in people who carry fat mainly in places the tape does not visit. Pregnancy, significant swelling, and very high or very low body fat also reduce its reliability, and in those situations a clinician's assessment matters more than any calculator.</p>
+  <h3 class="font-cond text-2xl font-bold text-slate-900 mt-8">How to take measurements that you can trust</h3>
+  <p class="mt-3 text-slate-600 leading-relaxed">Most disappointing results come from sloppy measuring, not from the formula. Use a flexible, non-stretch tape — the kind sold for sewing is ideal — and measure on bare skin or over one thin layer of clothing. Stand tall and relaxed; do not suck your stomach in, push it out, or flex. For height, stand barefoot against a wall, look straight ahead, and have someone mark the crown of your head if you can. For the neck, place the tape just below the larynx, the prominent bump of the throat, with the tape sloping very slightly downward toward the front, snug but not tight. For the waist, men should measure horizontally at the level of the navel, while women should measure at the narrowest natural point of the torso, usually just above the navel. In both cases, take the reading at the end of a normal breath out, not after a deep inhale. For hips, required only in the women's formula, wrap the tape around the widest point of the buttocks and keep it level all the way around. Weigh yourself in the morning after using the bathroom and before breakfast for the most repeatable weight. Write everything down immediately, and if one number looks odd, measure that site twice more and use the middle value. Small care here pays off: half a centimetre on the waist can move the result noticeably, so repeatability is the whole game.</p>
+  <h3 class="font-cond text-2xl font-bold text-slate-900 mt-8">Understanding the categories: essential, athletes, fitness, average and obese</h3>
+  <p class="mt-3 text-slate-600 leading-relaxed">LeanLens places your result on a colour gauge divided into the widely used categories popularised by the American Council on Exercise. Essential fat is the floor your body needs to function: roughly two to five percent for men and ten to thirteen percent for women. Below that floor, hormones, immunity, mood and fertility can suffer, and staying near it year-round is neither necessary nor advisable for most people. The Athletes category — about six to thirteen percent for men and fourteen to twenty percent for women — describes competitive athletes in training, who often move up a category in the off-season. Fitness, about fourteen to seventeen percent for men and twenty-one to twenty-four percent for women, is the sweet spot many recreational trainees aim for: lean, strong and sustainable with ordinary discipline. Average covers about eighteen to twenty-four percent for men and twenty-five to thirty-one percent for women, which is where a large share of adults sit; people here are often only a few habits away from Fitness. Above those ranges, the Obese category signals that fat loss would likely improve blood pressure, blood sugar control, joint load and sleep quality, ideally with medical support for significant change. Notice the gauge in LeanLens uses a scale up to forty percent for men and fifty percent for women, so your marker position stays readable across the full range. Whatever your category today, it is a starting point, not a label — bodies move between categories all the time.</p>
+  <h3 class="font-cond text-2xl font-bold text-slate-900 mt-8">Fat mass, lean mass, and the target weight most people actually want</h3>
+  <p class="mt-3 text-slate-600 leading-relaxed">Once you know your percentage, the fat mass and lean mass split turns an abstract number into a plan. Suppose you weigh ninety kilograms at twenty-five percent body fat. Your fat mass is twenty-two and a half kilograms and your lean mass is sixty-seven and a half kilograms. If you want to reach eighteen percent without losing lean mass, simple arithmetic shows your target weight is your lean mass divided by one minus your target percentage — about eighty-two kilograms. That means losing roughly eight kilograms of fat, not an arbitrary ten or fifteen kilograms of anything. LeanLens shows a version of this thinking in its target note, estimating the weight you would reach at the top of the Fitness range if lean mass stayed constant. In real life lean mass rarely stays perfectly constant: beginners often gain a little muscle while losing fat, and aggressive dieting without protein or resistance training can cost muscle. The estimate is still valuable because it reframes goals around fat loss instead of weight loss. It also explains plateaus that frustrate dieters. If your weight is unchanged for three weeks but your waist is a centimetre smaller and your LeanLens percentage has dropped, you have probably lost fat and gained a little muscle or water — genuine progress the scale alone would have hidden from you.</p>
+  <h3 class="font-cond text-2xl font-bold text-slate-900 mt-8">Body fat percentage versus BMI</h3>
+  <p class="mt-3 text-slate-600 leading-relaxed">Body mass index, or BMI, divides weight by height squared and sorts the answer into bands. It is fast and useful for population studies, but it cannot see composition at all. A rugby player or a dedicated lifter can easily record an overweight or even obese BMI while carrying athlete-level body fat, because muscle is denser than fat and BMI counts it identically. The opposite error is just as common and more dangerous: a sedentary person with little muscle can land in the so-called healthy BMI band while carrying a high percentage of fat, a pattern researchers call normal-weight obesity, which still carries elevated metabolic risk. Body fat percentage avoids both traps by estimating composition directly. That does not make BMI useless — doctors use it as a quick screen, and for people of average muscularity the two measures usually agree in broad terms — but if you train, if you have lost or gained significant muscle, or if your BMI and your mirror seem to disagree, trust the tape-based estimate more and discuss any concerns with a healthcare professional who can see the full picture.</p>
+  <h3 class="font-cond text-2xl font-bold text-slate-900 mt-8">How to lower body fat without losing the muscle you need</h3>
+  <p class="mt-3 text-slate-600 leading-relaxed">Fat loss follows energy balance, but good fat loss — the kind that keeps lean mass, energy and sanity intact — follows a few more rules. Aim for a modest calorie deficit that produces roughly a quarter to three-quarters of a percent of body weight lost per week; faster loss usually costs muscle and rebounds. Keep protein generous, commonly around one point six to two point two grams per kilogram of body weight per day for active dieters, spread across meals. Train with resistance two to four times per week and try to keep your strength stable, because the training stimulus is the signal that tells your body to keep muscle while fat pays the energy bill. Fill the rest of the week with movement you enjoy — walking is famously underrated — and protect sleep, since short sleep raises hunger hormones and shifts loss toward lean tissue. Re-measure with LeanLens every two to four weeks under the same conditions rather than chasing daily noise. If the percentage trends down over two or three checks, your plan is working even when individual weeks wobble. If it stalls for a month, adjust one lever at a time — slightly smaller portions, more daily steps, or an extra training session — and give the change time to show. Avoid crash diets, detox products and any plan you cannot imagine following in six months. The best fat-loss plan is the unglamorous one you can still be doing next season.</p>
+  <p class="mt-3 text-slate-600 leading-relaxed">A final word of care. Body fat calculators, including this one, provide estimates for information and motivation; they do not diagnose any condition. Very low or very high results, rapid unexplained change, disordered thoughts about food or weight, pregnancy, adolescence and chronic illness all deserve proper medical input rather than internet arithmetic. Used sensibly, though, a tape measure and an honest percentage are among the most empowering tools in fitness: cheap, private, repeatable and focused on the tissue you actually want to change. Measure carefully, note your starting split between fat mass and lean mass, set a category-sized goal rather than a fantasy number, and let steady weeks do the heavy lifting. That is exactly what LeanLens was built to support — one clear reading, one clear gauge, and a clear next step, every time you check in.</p>
+</article>
+
+<!-- FAQs -->
+<section class="mx-auto max-w-4xl px-4 sm:px-6 pb-12">
+  <h2 class="font-cond text-4xl font-bold text-slate-900">Frequently Asked Questions</h2>
+  <div class="space-y-3 mt-5">
+    <details class="bg-white rounded-2xl border border-slate-200 p-5"><summary class="font-bold cursor-pointer">How accurate is the US Navy body fat method?</summary><p class="text-slate-600 text-sm mt-2 leading-relaxed">The US Navy tape-measure method typically estimates body fat within about 3 to 4 percentage points of hydrostatic weighing or DEXA for most adults when measurements are taken carefully. It is not a medical diagnosis, but it is consistent enough to track change over time if you measure the same way each time.</p></details>
+    <details class="bg-white rounded-2xl border border-slate-200 p-5"><summary class="font-bold cursor-pointer">Where exactly do I measure my waist, neck and hips?</summary><p class="text-slate-600 text-sm mt-2 leading-relaxed">Measure your neck just below the larynx with the tape sloping slightly downward. Measure your waist at navel level for men and at the narrowest point for women, after a normal exhale. Measure hips at the widest point of the buttocks, only needed for the women's formula. Keep the tape snug, flat against skin, and parallel to the floor.</p></details>
+    <details class="bg-white rounded-2xl border border-slate-200 p-5"><summary class="font-bold cursor-pointer">What is a healthy body fat percentage for men and women?</summary><p class="text-slate-600 text-sm mt-2 leading-relaxed">For men, the Fitness category is roughly 14 to 17 percent and Average is 18 to 24 percent. For women, Fitness is roughly 21 to 24 percent and Average is 25 to 31 percent. Essential fat is 2 to 5 percent for men and 10 to 13 percent for women. Healthy ranges vary with age, sport and individual health, so use the category as a guide, not a rule.</p></details>
+    <details class="bg-white rounded-2xl border border-slate-200 p-5"><summary class="font-bold cursor-pointer">What is the difference between fat mass and lean mass?</summary><p class="text-slate-600 text-sm mt-2 leading-relaxed">Fat mass is the weight of all fat in your body, calculated as your body weight multiplied by your body fat percentage. Lean mass is everything else — muscle, bone, organs, water and connective tissue. LeanLens shows both numbers so you can see whether weight change is coming from fat loss or muscle change.</p></details>
+    <details class="bg-white rounded-2xl border border-slate-200 p-5"><summary class="font-bold cursor-pointer">Can I use LeanLens in centimetres and inches?</summary><p class="text-slate-600 text-sm mt-2 leading-relaxed">Yes. Use the Metric and Imperial toggle at the top of the calculator. Metric uses centimetres and kilograms, Imperial uses inches and pounds. Switching units converts your current entries automatically so you do not have to re-measure or retype them.</p></details>
+    <details class="bg-white rounded-2xl border border-slate-200 p-5"><summary class="font-bold cursor-pointer">Why does BMI give me a different result from body fat percentage?</summary><p class="text-slate-600 text-sm mt-2 leading-relaxed">BMI only uses height and weight, so it cannot tell muscle from fat. A muscular person can have a high BMI with low body fat, and a sedentary person can have a normal BMI with high body fat. Body fat percentage estimates composition directly, which is why athletes and people building muscle often prefer the Navy tape method.</p></details>
+  </div>
+</section>
+
+<footer class="bg-slate-900 text-slate-400 text-center text-sm py-8 px-4">
+  <p class="font-cond text-xl text-white font-bold">LEAN<span class="text-orange-400">LENS</span></p>
+  <p class="mt-1">Free body fat calculator using the US Navy tape method. Estimates only — not medical advice.</p>
+  <p class="mt-2 text-xs">© 2026 LeanLens. All calculations happen in your browser.</p>
+<p class="fx-credit" style="text-align:center;font-size:12.5px;opacity:.62;margin:10px auto 2px;letter-spacing:.01em">Made by <a href="https://fixoraa.tech" target="_blank" rel="noopener" style="color:inherit;font-weight:700;text-decoration:underline;text-underline-offset:2px">Fixoraa</a></p>
+</footer>
+
+<script id="lib-leanlens">
+var LeanLensLib = (function () {
+  'use strict';
+
+  function round1(n) { return Math.round(n * 10) / 10; }
+  function round2(n) { return Math.round(n * 100) / 100; }
+
+  function cmToIn(cm) {
+    if (typeof cm !== 'number' || !isFinite(cm)) return null;
+    return cm / 2.54;
+  }
+  function inToCm(inches) {
+    if (typeof inches !== 'number' || !isFinite(inches)) return null;
+    return inches * 2.54;
+  }
+  function kgToLb(kg) {
+    if (typeof kg !== 'number' || !isFinite(kg)) return null;
+    return kg * 2.2046226218;
+  }
+  function lbToKg(lb) {
+    if (typeof lb !== 'number' || !isFinite(lb)) return null;
+    return lb / 2.2046226218;
+  }
+  // Convert a length value between units. unit values: 'cm' or 'in'
+  function convertLength(value, from, to) {
+    if (typeof value !== 'number' || !isFinite(value)) return null;
+    if (from === to) return value;
+    if (from === 'cm' && to === 'in') return cmToIn(value);
+    if (from === 'in' && to === 'cm') return inToCm(value);
+    return null;
+  }
+  function convertWeight(value, from, to) {
+    if (typeof value !== 'number' || !isFinite(value)) return null;
+    if (from === to) return value;
+    if (from === 'kg' && to === 'lb') return kgToLb(value);
+    if (from === 'lb' && to === 'kg') return lbToKg(value);
+    return null;
+  }
+
+  function isPositive(n) { return typeof n === 'number' && isFinite(n) && n > 0; }
+
+  // Core Navy calculation. All lengths must be in INCHES.
+  // sex: 'male' | 'female'
+  // Returns body fat % (number, 1 decimal) or null if invalid.
+  function navyBodyFatInches(sex, heightIn, neckIn, waistIn, hipIn) {
+    if (!isPositive(heightIn) || !isPositive(neckIn) || !isPositive(waistIn)) return null;
+    if (sex !== 'male' && sex !== 'female') return null;
+    var bf;
+    if (sex === 'male') {
+      var diff = waistIn - neckIn;
+      if (diff <= 0) return null;
+      bf = 86.010 * Math.log10(diff) - 70.041 * Math.log10(heightIn) + 36.76;
+    } else {
+      if (!isPositive(hipIn)) return null;
+      var sum = waistIn + hipIn - neckIn;
+      if (sum <= 0) return null;
+      bf = 163.205 * Math.log10(sum) - 97.684 * Math.log10(heightIn) - 78.387;
+    }
+    if (!isFinite(bf)) return null;
+    // Physiologically implausible guard: allow 1 to 75 range check in caller, but return raw rounded here if in -10..90
+    if (bf < -10 || bf > 90) return null;
+    return round1(bf);
+  }
+
+  // Main entry: accepts measurements in cm or inches via unit param.
+  // opts: { sex, height, neck, waist, hip, unit } unit = 'cm' | 'in'
+  function navyBodyFat(opts) {
+    if (!opts || typeof opts !== 'object') return null;
+    var unit = opts.unit === 'in' ? 'in' : 'cm';
+    function toIn(v) {
+      if (typeof v !== 'number' || !isFinite(v)) return null;
+      return unit === 'in' ? v : cmToIn(v);
+    }
+    var h = toIn(opts.height);
+    var n = toIn(opts.neck);
+    var w = toIn(opts.waist);
+    var hip = (opts.hip === undefined || opts.hip === null || opts.hip === '') ? null : toIn(opts.hip);
+    if (h === null || n === null || w === null) return null;
+    if (opts.sex === 'female' && hip === null) return null;
+    return navyBodyFatInches(opts.sex, h, n, w, hip);
+  }
+
+  function getCategory(sex, bf) {
+    if (typeof bf !== 'number' || !isFinite(bf)) return null;
+    if (sex !== 'male' && sex !== 'female') return null;
+    var label, description, key;
+    if (sex === 'male') {
+      if (bf < 2) { label = 'Below Essential'; key = 'below'; description = 'Below the essential range. Fat this low can affect hormones and health — speak to a clinician.'; }
+      else if (bf < 6) { label = 'Essential Fat'; key = 'essential'; description = 'The minimum fat needed for normal physiological function. Very lean and hard to sustain.'; }
+      else if (bf < 14) { label = 'Athletes'; key = 'athletes'; description = 'Typical of competitive athletes — lean, muscular and performance-focused.'; }
+      else if (bf < 18) { label = 'Fitness'; key = 'fitness'; description = 'A fit, healthy range with visible definition for most men.'; }
+      else if (bf < 25) { label = 'Average'; key = 'average'; description = 'The average range for adult men. Small, steady changes move you toward Fitness.'; }
+      else { label = 'Obese'; key = 'obese'; description = 'Above the healthy range. Gradual fat loss improves metabolic and heart health markers.'; }
+    } else {
+      if (bf < 10) { label = 'Below Essential'; key = 'below'; description = 'Below the essential range for women. Please seek medical guidance if this persists.'; }
+      else if (bf < 14) { label = 'Essential Fat'; key = 'essential'; description = 'The minimum fat needed for normal physiological function in women.'; }
+      else if (bf < 21) { label = 'Athletes'; key = 'athletes'; description = 'Typical of competitive athletes — lean and performance-focused.'; }
+      else if (bf < 25) { label = 'Fitness'; key = 'fitness'; description = 'A fit, healthy range with good muscle tone for most women.'; }
+      else if (bf < 32) { label = 'Average'; key = 'average'; description = 'The average range for adult women. Steady habits move you toward Fitness.'; }
+      else { label = 'Obese'; key = 'obese'; description = 'Above the healthy range. Gradual fat loss improves metabolic and heart health markers.'; }
+    }
+    return { label: label, key: key, description: description };
+  }
+
+  // Categories table for gauge rendering
+  function categoryRanges(sex) {
+    if (sex === 'female') {
+      return [
+        { label: 'Essential', min: 10, max: 13 },
+        { label: 'Athletes', min: 14, max: 20 },
+        { label: 'Fitness', min: 21, max: 24 },
+        { label: 'Average', min: 25, max: 31 },
+        { label: 'Obese', min: 32, max: 50 }
+      ];
+    }
+    return [
+      { label: 'Essential', min: 2, max: 5 },
+      { label: 'Athletes', min: 6, max: 13 },
+      { label: 'Fitness', min: 14, max: 17 },
+      { label: 'Average', min: 18, max: 24 },
+      { label: 'Obese', min: 25, max: 40 }
+    ];
+  }
+
+  // Fat mass vs lean mass split. weight in any unit (result in same unit).
+  function massSplit(weight, bfPercent) {
+    if (!isPositive(weight)) return null;
+    if (typeof bfPercent !== 'number' || !isFinite(bfPercent) || bfPercent < 0 || bfPercent > 100) return null;
+    var fat = weight * bfPercent / 100;
+    var lean = weight - fat;
+    return { fatMass: round1(fat), leanMass: round1(lean), fatPercent: round1(bfPercent), leanPercent: round1(100 - bfPercent) };
+  }
+
+  // Gauge position 0-100 for display. Scale 0..40 for men, 0..50 for women, clamped.
+  function gaugePercent(sex, bf) {
+    if (typeof bf !== 'number' || !isFinite(bf)) return 0;
+    var max = sex === 'female' ? 50 : 40;
+    var pct = (bf / max) * 100;
+    if (pct < 0) pct = 0;
+    if (pct > 100) pct = 100;
+    return round1(pct);
+  }
+
+  // Healthy target range helper: returns fat mass at fitness upper bound
+  function weightAtBodyFat(weight, currentBf, targetBf) {
+    if (!isPositive(weight)) return null;
+    if (typeof currentBf !== 'number' || typeof targetBf !== 'number') return null;
+    if (currentBf <= 0 || currentBf >= 100 || targetBf <= 0 || targetBf >= 100) return null;
+    var lean = weight * (1 - currentBf / 100);
+    var targetWeight = lean / (1 - targetBf / 100);
+    return round1(targetWeight);
+  }
+
+  function validateInputs(opts) {
+    var errors = [];
+    if (!opts) return ['Missing inputs.'];
+    if (opts.sex !== 'male' && opts.sex !== 'female') errors.push('Please select sex.');
+    if (!isPositive(opts.height)) errors.push('Enter a valid height greater than zero.');
+    if (!isPositive(opts.neck)) errors.push('Enter a valid neck measurement greater than zero.');
+    if (!isPositive(opts.waist)) errors.push('Enter a valid waist measurement greater than zero.');
+    if (opts.sex === 'female' && !isPositive(opts.hip)) errors.push('Enter a valid hip measurement — required for the women\u2019s Navy formula.');
+    if (opts.sex === 'male' && isPositive(opts.waist) && isPositive(opts.neck) && opts.waist <= opts.neck) errors.push('Waist must be larger than neck for the Navy formula.');
+    if (opts.sex === 'female' && isPositive(opts.waist) && isPositive(opts.hip) && isPositive(opts.neck) && (opts.waist + opts.hip - opts.neck) <= 0) errors.push('Waist plus hip must be larger than neck.');
+    if (opts.weight !== undefined && opts.weight !== null && opts.weight !== '' && !isPositive(opts.weight)) errors.push('Enter a valid weight greater than zero, or leave it blank.');
+    return errors;
+  }
+
+  return {
+    round1: round1,
+    round2: round2,
+    cmToIn: cmToIn,
+    inToCm: inToCm,
+    kgToLb: kgToLb,
+    lbToKg: lbToKg,
+    convertLength: convertLength,
+    convertWeight: convertWeight,
+    navyBodyFatInches: navyBodyFatInches,
+    navyBodyFat: navyBodyFat,
+    getCategory: getCategory,
+    categoryRanges: categoryRanges,
+    massSplit: massSplit,
+    gaugePercent: gaugePercent,
+    weightAtBodyFat: weightAtBodyFat,
+    validateInputs: validateInputs
+  };
+})();
+if (typeof module !== 'undefined' && module.exports) { module.exports = LeanLensLib; }
+
+</script>
+<script>
+var state = { sex: 'male', unit: 'cm' };
+function $(id){ return document.getElementById(id); }
+function num(id){ var v = parseFloat($(id).value); return isNaN(v) ? NaN : v; }
+function setSex(s){
+  state.sex = s;
+  $('sexMale').classList.toggle('active', s==='male');
+  $('sexFemale').classList.toggle('active', s==='female');
+  $('waistHint').textContent = s==='male' ? 'At navel level, exhaled' : 'At narrowest point, exhaled';
+  $('hipNote').textContent = s==='female' ? 'Required for the women\u2019s formula.' : 'Not needed for the men\u2019s formula.';
+  $('inpHip').placeholder = s==='female' ? (state.unit==='cm' ? '96' : '38') : '—';
+  $('hipCard').style.opacity = s==='female' ? '1' : '0.75';
+}
+function setUnit(u){
+  if(u===state.unit) return;
+  var from = state.unit, to = u;
+  var ids = ['inpHeight','inpNeck','inpWaist','inpHip'];
+  ids.forEach(function(id){ var el=$(id); if(el.value!=='' && !isNaN(parseFloat(el.value))){ el.value = (Math.round(LeanLensLib.convertLength(parseFloat(el.value), from, to)*10)/10); } });
+  var wEl = $('inpWeight');
+  if(wEl.value!=='' && !isNaN(parseFloat(wEl.value))){ var wf = from==='cm' ? 'kg' : 'lb'; var wt = to==='cm' ? 'kg' : 'lb'; wEl.value = (Math.round(LeanLensLib.convertWeight(parseFloat(wEl.value), wf, wt)*10)/10); }
+  state.unit = u;
+  $('unitMetric').classList.toggle('active', u==='cm');
+  $('unitImperial').classList.toggle('active', u==='in');
+  document.querySelectorAll('.unitLen').forEach(function(el){ el.textContent = u==='cm' ? 'cm' : 'in'; });
+  $('unitWt').textContent = u==='cm' ? 'kg' : 'lb';
+  document.querySelectorAll('.wtUnit').forEach(function(el){ el.textContent = u==='cm' ? 'kg' : 'lb'; });
+  var ph = u==='cm' ? {h:'175',n:'38',w:'86',wt:'78'} : {h:'69',n:'15',w:'34',wt:'172'};
+  $('inpHeight').placeholder = ph.h; $('inpNeck').placeholder = ph.n; $('inpWaist').placeholder = ph.w; $('inpWeight').placeholder = ph.wt;
+  if(state.sex==='female') $('inpHip').placeholder = u==='cm' ? '96' : '38';
+}
+function loadExample(){
+  if(state.unit==='cm'){ $('inpHeight').value=178; $('inpNeck').value=39; $('inpWaist').value=84; $('inpHip').value=97; $('inpWeight').value=79; }
+  else { $('inpHeight').value=70; $('inpNeck').value=15.4; $('inpWaist').value=33; $('inpHip').value=38; $('inpWeight').value=174; }
+  calculate();
+}
+function resetAll(){
+  ['inpHeight','inpNeck','inpWaist','inpHip','inpWeight'].forEach(function(id){ $(id).value=''; });
+  $('errBox').classList.add('hidden'); $('results').classList.add('hidden'); $('emptyState').classList.remove('hidden');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function calculate(){
+  var opts = { sex: state.sex, height: num('inpHeight'), neck: num('inpNeck'), waist: num('inpWaist'), hip: $('inpHip').value===''? undefined : num('inpHip'), weight: $('inpWeight').value===''? undefined : num('inpWeight'), unit: state.unit };
+  // Normalise NaN to undefined for validator
+  ['height','neck','waist'].forEach(function(k){ if(isNaN(opts[k])) opts[k]=undefined; });
+  if(opts.hip!==undefined && isNaN(opts.hip)) opts.hip=undefined;
+  if(opts.weight!==undefined && isNaN(opts.weight)) opts.weight=NaN;
+  var errs = LeanLensLib.validateInputs({ sex: opts.sex, height: opts.height, neck: opts.neck, waist: opts.waist, hip: opts.hip, weight: opts.weight });
+  var bf = LeanLensLib.navyBodyFat(opts);
+  if(errs.length || bf===null){
+    var msg = errs.length ? errs.join(' ') : 'Those measurements do not produce a valid result. Check that waist is larger than neck and all values are realistic.';
+    $('errBox').textContent = '⚠️ ' + msg; $('errBox').classList.remove('hidden'); return;
+  }
+  if(bf < 1 || bf > 70){ $('errBox').textContent = '⚠️ That result ('+bf+'%) looks outside the plausible range. Please double-check your tape measurements and try again.'; $('errBox').classList.remove('hidden'); return; }
+  $('errBox').classList.add('hidden');
+  var cat = LeanLensLib.getCategory(state.sex, bf);
+  $('resBf').textContent = bf.toFixed(1);
+  $('resCat').textContent = cat.label;
+  $('resCatDesc').textContent = cat.description;
+  $('gaugeMarker').style.left = LeanLensLib.gaugePercent(state.sex, bf) + '%';
+  var ranges = LeanLensLib.categoryRanges(state.sex);
+  $('catTable').innerHTML = ranges.map(function(r){ var on = (cat.label.indexOf(r.label)===0) || (r.label==='Obese' && cat.label==='Obese'); return '<div class="rounded-xl px-2 py-2.5 '+(on?'bg-slate-900 text-white font-bold':'bg-slate-50 text-slate-600')+'"><div>'+r.label+'</div><div class="opacity-70 mt-0.5">'+r.min+'–'+(r.label==='Obese'?r.max+'+':r.max)+'%</div></div>'; }).join('');
+  var hasWeight = typeof opts.weight==='number' && isFinite(opts.weight) && opts.weight>0;
+  if(hasWeight){
+    var split = LeanLensLib.massSplit(opts.weight, bf);
+    $('splitWrap').classList.remove('hidden'); $('splitEmpty').classList.add('hidden');
+    $('resFat').textContent = split.fatMass; $('resLean').textContent = split.leanMass;
+    $('resFatPct').textContent = split.fatPercent + '% of total weight';
+    $('resLeanPct').textContent = split.leanPercent + '% of total weight';
+    $('fatBar').style.width = Math.max(8, split.fatPercent) + '%'; $('leanBar').style.width = Math.max(8, split.leanPercent) + '%';
+    var targetBf = state.sex==='male' ? 17 : 24;
+    var tw = LeanLensLib.weightAtBodyFat(opts.weight, bf, targetBf);
+    var wu = state.unit==='cm' ? 'kg' : 'lb';
+    if(tw && bf > targetBf){ $('targetNote').textContent = '🎯 If lean mass stays the same, reaching '+targetBf+'% (top of Fitness) means about '+tw+' '+wu+' — roughly '+(Math.round((opts.weight-tw)*10)/10)+' '+wu+' of fat to lose.'; $('targetNote').classList.remove('hidden'); }
+    else if(tw){ $('targetNote').textContent = '✅ You are already at or leaner than the Fitness threshold of '+targetBf+'%. Focus on performance, strength and maintenance.'; $('targetNote').classList.remove('hidden'); }
+    else $('targetNote').classList.add('hidden');
+  } else {
+    $('splitWrap').classList.add('hidden'); $('splitEmpty').classList.remove('hidden');
+  }
+  $('results').classList.remove('hidden'); $('emptyState').classList.add('hidden');
+  $('results').scrollIntoView({behavior:'smooth', block:'start'});
+}
+function copyResult(){
+  var bf = $('resBf').textContent; if(bf==='—') return;
+  var wu = state.unit==='cm' ? 'kg' : 'lb';
+  var txt = 'LeanLens Body Fat Result: '+bf+'% ('+$('resCat').textContent+')';
+  if(!$('splitWrap').classList.contains('hidden')) txt += ' — Fat mass: '+$('resFat').textContent+' '+wu+', Lean mass: '+$('resLean').textContent+' '+wu+'.';
+  if(navigator.clipboard) navigator.clipboard.writeText(txt).then(function(){ $('copyMsg').textContent='Copied!'; setTimeout(function(){ $('copyMsg').textContent=''; },2000); });
+}
+setSex('male');
+</script>
+</body>
+</html>
